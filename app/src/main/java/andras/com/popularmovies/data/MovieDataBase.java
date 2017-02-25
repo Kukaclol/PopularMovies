@@ -16,7 +16,11 @@ public class MovieDataBase {
     }
 
     public static int getLength() {
-        return movieData.length;
+        if(isInitialized()) {
+            return movieData.length;
+        }else{
+            return 0;
+        }
     }
 
     public static MovieInformation get(int adapterPosition) {

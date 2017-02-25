@@ -10,24 +10,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="andras.com.popularmovies.MoviesMainActivity">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/movie_progress_bar"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/movies_recycle_view"
-            android:scrollbars="vertical"
+        <ToggleButton
+            android:text="Select API"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-         />
-    </FrameLayout>
+            android:id="@+id/api_toggle_button"
+            android:textOff="@string/popular"
+            android:textOn="@string/top_rated"
+            android:layout_marginBottom="20dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="@string/no_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/no_connection"
+                android:visibility="invisible"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/movie_progress_bar"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movies_recycle_view"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+             />
+        </FrameLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

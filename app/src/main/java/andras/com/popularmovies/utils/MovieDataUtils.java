@@ -22,7 +22,10 @@ public class MovieDataUtils {
 
     static MovieDataBase movieData = null;
 
+    static boolean setToTopRated = true;
+
     static final String topRatedUrl = "https://api.themoviedb.org/3/movie/top_rated";
+    static final String popularUrl = "https://api.themoviedb.org/3/movie/popular";
 
     static final String apiKey = "api_key";
     //TODO: Add your API key here
@@ -31,21 +34,46 @@ public class MovieDataUtils {
     static final String thumbnailBaselUrl = "http://image.tmdb.org/t/p/w300/";
     static final String posterBaselUrl = "http://image.tmdb.org/t/p/w780/";
 
-    public static MovieDataBase getMovieData() {
-        if(!movieData.isInitialized()){
-            downloadMovieData();
+
+    public static MovieDataBase getTopRated(){
+        if(!setToTopRated) {
+            setToTopRated = true;
+            return getMovieData();
+        }else {
+            if (movieData != null) {
+                return getMovieData();
+            } else{
+                return movieData;
+            }
+        }
+    }
+
+    public static MovieDataBase getPopular(){
+        if(setToTopRated) {
+            setToTopRated = false;
+            return getMovieData();
+        }else {
+            if (movieData != null) {
+                return getMovieData();
+            } else{
+                return movieData;
+            }
+        }
+    }
+
+    private static MovieDataBase getMovieData() {
+        if(setToTopRated) {
+            downloadMovieData(topRatedUrl);
+        }else{
+            downloadMovieData(popularUrl);
         }
         return movieData;
     }
 
-    public static void refresh(){
-        downloadMovieData();
-    }
-
-    private static void downloadMovieData(){
+    private static void downloadMovieData(String url){
         String response = null;
         try {
-            response = getResponseFromHttpUrl(buildUrl());
+            response = getResponseFromHttpUrl(buildUrl(url));
         } catch (IOException e) {
             Log.e(tag, e.getMessage());
             return;
@@ -58,21 +86,21 @@ public class MovieDataUtils {
         }
     }
 
-    private static URL buildUrl() {
-        Uri builtUri = Uri.parse(topRatedUrl).buildUpon()
+    private static URL buildUrl(String url) {
+        Uri builtUri = Uri.parse(url).buildUpon()
                 .appendQueryParameter(apiKey, apiKeyValue)
                 .build();
 
-        URL url = null;
+        URL api = null;
         try {
-            url = new URL(builtUri.toString());
+            api = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             Log.e(tag, e.getMessage());
         }
 
-        Log.v(tag, "Built URI " + url);
+        Log.v(tag, "Built URI " + api);
 
-        return url;
+        return api;
     }
 
     private static String getResponseFromHttpUrl(URL url) throws IOException {

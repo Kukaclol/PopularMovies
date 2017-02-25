@@ -36,7 +36,7 @@ public class MovieDetailActivity extends Activity {
         new DownloadImageTask(mPoster).execute(movie.getPosterURL());
         mTitleTextView.setText(movie.getTitle());
         mDescriptionTextView.setText(movie.getOverview());
-        mRatingTextView.setText(String.valueOf("Rating: " + movie.getRating()));
-        mReleaseDateTextView.setText("Release Date: " + movie.getReleaseDate());
+        mRatingTextView.setText(String.valueOf(R.string.rating_text + " " + movie.getRating()));
+        mReleaseDateTextView.setText(R.string.release_date + " " + movie.getReleaseDate());
     }
 }
